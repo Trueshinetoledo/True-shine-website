@@ -16,6 +16,30 @@
     />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="quote-form.css" />
+    <style id="mobile-header-fix">
+      @media (max-width: 768px) {
+        .header-inner {
+          flex-wrap: wrap !important;
+        }
+        .logo-link {
+          flex: 1 1 auto;
+          min-width: 0;
+        }
+        .nav-toggle {
+          order: 2;
+          margin-left: auto;
+        }
+        .header-cta {
+          order: 3;
+          width: 100%;
+          justify-content: flex-end;
+        }
+        .nav-wrap {
+          order: 4;
+          width: 100%;
+        }
+      }
+    </style>
   </head>
   <body>
     <header class="site-header">
