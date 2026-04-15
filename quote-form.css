@@ -156,11 +156,56 @@
 .form-success {
   font-size: 0.95rem;
   color: var(--navy);
-  font-weight: 600;
   margin: 0;
   padding: 1rem;
   border-radius: var(--radius-sm);
   background: var(--mist);
   border: 1px solid rgba(0, 115, 207, 0.15);
   text-align: left;
+}
+
+.form-success p {
+  margin: 0 0 0.75rem;
+}
+
+.form-success p:last-child {
+  margin-bottom: 0;
+}
+
+.form-success__lead {
+  font-weight: 600;
+}
+
+.form-success__hint {
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: rgba(0, 45, 98, 0.78);
+  line-height: 1.45;
+}
+
+.quote-fallback-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin: 0.35rem 0 0.25rem;
+}
+
+.quote-fallback-actions .btn {
+  flex: 1 1 auto;
+  min-width: 10rem;
+  justify-content: center;
+}
+
+.form-success__email {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--blue);
+  min-height: 1.25rem;
+}
+
+.form-success__footer {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: rgba(0, 45, 98, 0.85);
+  line-height: 1.5;
 }

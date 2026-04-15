@@ -292,10 +292,25 @@
                   When you submit, your email app opens with a message to us at True Shine Exteriors &mdash; just hit send.
                   You can also call either number above anytime.
                 </p>
-                <p class="form-success" id="quote-form-success" hidden role="status">
-                  Thanks &mdash; we received your details. We&apos;ll be in touch soon. Prefer to talk now? Call
-                  <a href="tel:+14193445245">419-344-5245</a>.
-                </p>
+                <div class="form-success" id="quote-form-success" hidden role="status">
+                  <p class="form-success__lead">
+                    Thanks &mdash; your quote is ready to send. If your email app opened, just press Send.
+                  </p>
+                  <p class="form-success__hint">
+                    On many computers nothing opens until a mail app is chosen in system settings. You can open or copy
+                    below instead.
+                  </p>
+                  <p class="quote-fallback-actions">
+                    <a class="btn btn-primary" href="#" id="quote-mailto-link">Open in email</a>
+                    <button type="button" class="btn btn-outline" id="quote-copy-btn">Copy message</button>
+                  </p>
+                  <p class="form-success__email" id="quote-copy-feedback" aria-live="polite"></p>
+                  <p class="form-success__footer">
+                    Or email
+                    <a href="mailto:trueshinetoledo@gmail.com">trueshinetoledo@gmail.com</a>
+                    manually. Prefer to talk now? Call <a href="tel:+14193445245">419-344-5245</a>.
+                  </p>
+                </div>
               </form>
             </div>
           </div>
@@ -347,8 +362,44 @@
 
         var quoteForm = document.getElementById("quote-form");
         var quoteSuccess = document.getElementById("quote-form-success");
+        var quoteMailtoLink = document.getElementById("quote-mailto-link");
+        var quoteCopyBtn = document.getElementById("quote-copy-btn");
+        var quoteCopyFeedback = document.getElementById("quote-copy-feedback");
         // Business inbox for quote requests (mailto — customer sends from their email app).
         var quoteMailTo = "trueshinetoledo@gmail.com";
+
+        function copyTextToClipboard(text) {
+          if (navigator.clipboard && window.isSecureContext) {
+            return navigator.clipboard.writeText(text);
+          }
+          return new Promise(function (resolve, reject) {
+            try {
+              var ta = document.createElement("textarea");
+              ta.value = text;
+              ta.setAttribute("readonly", "");
+              ta.style.position = "fixed";
+              ta.style.left = "-9999px";
+              document.body.appendChild(ta);
+              ta.select();
+              document.execCommand("copy");
+              document.body.removeChild(ta);
+              resolve();
+            } catch (err) {
+              reject(err);
+            }
+          });
+        }
+
+        function triggerMailto(href) {
+          var a = document.createElement("a");
+          a.href = href;
+          a.rel = "noopener noreferrer";
+          a.style.position = "fixed";
+          a.style.left = "-9999px";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
 
         if (quoteForm) {
           quoteForm.addEventListener("submit", function (e) {
@@ -380,12 +431,18 @@
               "Address:\r\n" +
               address +
               "\r\n";
-            if (quoteMailTo) {
-              var subject = encodeURIComponent("Quote: " + service + " — " + name);
-              var mail = "mailto:" + quoteMailTo + "?subject=" + subject + "&body=" + encodeURIComponent(body);
-              window.location.href = mail;
-              return;
+            var subject = encodeURIComponent("Quote: " + service + " — " + name);
+            var mailHref =
+              "mailto:" + quoteMailTo + "?subject=" + subject + "&body=" + encodeURIComponent(body);
+
+            if (quoteMailtoLink) {
+              quoteMailtoLink.href = mailHref;
             }
+
+            if (quoteMailTo) {
+              triggerMailto(mailHref);
+            }
+
             quoteForm.querySelector(".form-note").hidden = true;
             quoteForm.querySelector(".form-actions").hidden = true;
             quoteForm.querySelectorAll(".form-field").forEach(function (el) {
@@ -394,6 +451,26 @@
             var qt = quoteForm.querySelector(".quote-form-title");
             if (qt) qt.hidden = true;
             if (quoteSuccess) quoteSuccess.hidden = false;
+
+            var copyPlain =
+              "To: " + quoteMailTo + "\r\n\r\nSubject: Quote: " + service + " — " + name + "\r\n\r\n" + body;
+
+            if (quoteCopyBtn) {
+              quoteCopyBtn.onclick = function () {
+                copyTextToClipboard(copyPlain)
+                  .then(function () {
+                    if (quoteCopyFeedback) {
+                      quoteCopyFeedback.textContent = "Copied — paste into any email and send.";
+                    }
+                  })
+                  .catch(function () {
+                    if (quoteCopyFeedback) {
+                      quoteCopyFeedback.textContent =
+                        "Could not copy automatically. Select the text from your fields above or email us directly.";
+                    }
+                  });
+              };
+            }
           });
         }
       })();
