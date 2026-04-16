@@ -298,6 +298,36 @@
                     </label>
                   </div>
                 </fieldset>
+                <fieldset class="form-field form-field--service">
+                  <legend id="quote-timeframe-legend">Preferred service timeframe</legend>
+                  <div class="radio-group" role="radiogroup" aria-labelledby="quote-timeframe-legend">
+                    <label class="radio-label">
+                      <input type="radio" name="timeframe" value="ASAP" required />
+                      ASAP
+                    </label>
+                    <label class="radio-label">
+                      <input type="radio" name="timeframe" value="This week" />
+                      This week
+                    </label>
+                    <label class="radio-label">
+                      <input type="radio" name="timeframe" value="Flexible" />
+                      Flexible
+                    </label>
+                  </div>
+                </fieldset>
+                <fieldset class="form-field form-field--service">
+                  <legend id="quote-frequency-legend">One-time or recurring service?</legend>
+                  <div class="radio-group" role="radiogroup" aria-labelledby="quote-frequency-legend">
+                    <label class="radio-label">
+                      <input type="radio" name="frequency" value="One-time" required />
+                      One-time
+                    </label>
+                    <label class="radio-label">
+                      <input type="radio" name="frequency" value="Recurring" />
+                      Recurring
+                    </label>
+                  </div>
+                </fieldset>
                 <div class="form-field">
                   <label for="quote-address">Service address</label>
                   <textarea
@@ -438,6 +468,10 @@
             var address = document.getElementById("quote-address").value.trim();
             var serviceEl = quoteForm.querySelector('input[name="service"]:checked');
             var service = serviceEl ? serviceEl.value : "";
+            var timeframeEl = quoteForm.querySelector('input[name="timeframe"]:checked');
+            var timeframe = timeframeEl ? timeframeEl.value : "";
+            var frequencyEl = quoteForm.querySelector('input[name="frequency"]:checked');
+            var frequency = frequencyEl ? frequencyEl.value : "";
             var body =
               "Quote request — True Shine Exteriors\r\n\r\n" +
               "Name: " +
@@ -451,6 +485,12 @@
               "\r\n" +
               "Service: " +
               service +
+              "\r\n" +
+              "Preferred timeframe: " +
+              timeframe +
+              "\r\n" +
+              "One-time or recurring: " +
+              frequency +
               "\r\n" +
               "Address:\r\n" +
               address +
