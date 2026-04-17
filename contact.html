@@ -16,6 +16,20 @@
     />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="quote-form.css" />
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '993442333354169');
+      fbq('track', 'PageView');
+    </script>
+    <!-- End Meta Pixel Code -->
     <style id="mobile-header-fix">
       @media (max-width: 768px) {
         .header-inner {
@@ -42,6 +56,9 @@
     </style>
   </head>
   <body>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=993442333354169&ev=PageView&noscript=1"
+    /></noscript>
     <header class="site-header">
       <div class="container header-inner">
         <a class="logo-link" href="index.html#top">
@@ -286,6 +303,12 @@
         var quoteMailTo = "trueshinetoledo@gmail.com";
         var QUOTE_FORM_ENDPOINT = "";
 
+        function trackLeadConversion() {
+          if (typeof fbq === "function") {
+            fbq("track", "Lead");
+          }
+        }
+
         function copyTextToClipboard(text) {
           if (navigator.clipboard && window.isSecureContext) {
             return navigator.clipboard.writeText(text);
@@ -346,6 +369,7 @@
               quoteMailTo +
               "</a>.";
           }
+          trackLeadConversion();
           if (quoteSuccess) quoteSuccess.hidden = false;
         }
 
@@ -382,6 +406,7 @@
               quoteMailTo +
               '</a> manually. Prefer to talk now? Call <a href="tel:+14193445245">419-344-5245</a>.';
           }
+          trackLeadConversion();
           if (quoteSuccess) quoteSuccess.hidden = false;
 
           if (quoteCopyBtn) {
